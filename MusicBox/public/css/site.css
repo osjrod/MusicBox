@@ -1,0 +1,9 @@
+.jumbotron{
+	background-image: url("../images/banner1.png");
+	background-size: 100%;
+	height: 370px;
+}
+
+.medio{
+	height: 300px;
+}

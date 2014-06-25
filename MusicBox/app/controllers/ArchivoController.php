@@ -9,12 +9,23 @@ class ArchivoController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$this->layout->nest('content', 'archivo.index');
 	}
 
 	public function subir()
 	{
-		//
+		$file = Input::file('file'); // your file upload input field in the form should be named 'file'
+
+		$destinationPath = '/Home/Documents/FilesToConvert/';
+		$filename = $file->getClientOriginalName();
+		//$extension =$file->getClientOriginalExtension(); //if you need extension of the file
+		$uploadSuccess = Input::file('file')->move($destinationPath, $filename);
+		 
+		if( $uploadSuccess ) {
+		   return Response::json('success', 200); // or do a redirect with some message that file was uploaded
+		} else {
+		   return Response::json('error', 400);
+		}
 	}
 
 	/**
