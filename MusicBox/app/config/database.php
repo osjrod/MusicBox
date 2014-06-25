@@ -68,7 +68,7 @@ return array(
 			'host'     => 'localhost',
 			'database' => 'converter',
 			'username' => 'postgres',
-			'password' => 'jrod',
+			'password' => 'lili',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'port'     => '5432',

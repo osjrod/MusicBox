@@ -1,6 +1,6 @@
 <?php
 
-require_once( '/home/osjrod/git/MusicBox/MusicBox/vendor/autoload.php');
+require_once( '/home/liliala/git/MusicBox/MusicBox/vendor/autoload.php');
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -39,7 +39,7 @@ class ArchivoController extends \BaseController {
 		$origen   = Input::file('origen');
  		$destino  = Input::get('destino');
 
- 		$subidos = "/home/osjrod/ArchivosMusicBox/Subidos";
+ 		$subidos = "/home/liliala/ArchivosMusicBox/Subidos";
 
  		$nombre = $origen->getClientOriginalName();
         
@@ -53,7 +53,7 @@ class ArchivoController extends \BaseController {
 			
 			$origen = $subidos."/".$nombre;
 			$insercion = Archivo::store($origen,$destino);
-			$this->sendQueue(json_encode($insercion),$insercion->id);
+			$this->enviarColas(json_encode($insercion),$insercion->id);
 			return Response::json("listo");
 		}
 		else {
@@ -113,12 +113,9 @@ class ArchivoController extends \BaseController {
 	{
 		$connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
 		$channel = $connection->channel();
-
 		$channel->queue_declare($id, false, false, false, false);
-
 		$msg = new AMQPMessage($insercion);
 		$channel->basic_publish($msg, '', 'hello');
-
 		$channel->close();
 		$connection->close();
 	}
