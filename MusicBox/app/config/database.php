@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'pgsql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -66,11 +66,12 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'forge',
-			'username' => 'forge',
-			'password' => '',
+			'database' => 'converter',
+			'username' => 'postgres',
+			'password' => 'jrod',
 			'charset'  => 'utf8',
 			'prefix'   => '',
+			'port'     => '5432',
 			'schema'   => 'public',
 		),
 

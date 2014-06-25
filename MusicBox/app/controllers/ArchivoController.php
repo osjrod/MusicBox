@@ -1,5 +1,10 @@
 <?php
 
+require_once( '/home/osjrod/git/MusicBox/MusicBox/vendor/autoload.php');
+
+use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
 class ArchivoController extends \BaseController {
 
 	/**
@@ -9,23 +14,8 @@ class ArchivoController extends \BaseController {
 	 */
 	public function index()
 	{
+		
 		$this->layout->nest('content', 'archivo.index');
-	}
-
-	public function subir()
-	{
-		$file = Input::file('file'); // your file upload input field in the form should be named 'file'
-
-		$destinationPath = '/Home/Documents/FilesToConvert/';
-		$filename = $file->getClientOriginalName();
-		//$extension =$file->getClientOriginalExtension(); //if you need extension of the file
-		$uploadSuccess = Input::file('file')->move($destinationPath, $filename);
-		 
-		if( $uploadSuccess ) {
-		   return Response::json('success', 200); // or do a redirect with some message that file was uploaded
-		} else {
-		   return Response::json('error', 400);
-		}
 	}
 
 	/**
@@ -46,7 +36,29 @@ class ArchivoController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$origen   = Input::file('origen');
+ 		$destino  = Input::get('destino');
+
+ 		$subidos = "/home/osjrod/ArchivosMusicBox/Subidos";
+
+ 		$nombre = $origen->getClientOriginalName();
+        
+		$informacion = pathinfo($nombre);
+		$extension  = $informacion['extension'];
+
+		//if()FALTA VALIDAR EXTENSIONES
+
+		$subido = $origen->move($subidos, $nombre);
+		if($subido) {
+			
+			$origen = $subidos."/".$nombre;
+			$insercion = Archivo::store($origen,$destino);
+			$this->sendQueue(json_encode($insercion),$insercion->id);
+			return Response::json("listo");
+		}
+		else {
+			return Response::json("error");
+		}
 	}
 
 
@@ -95,6 +107,20 @@ class ArchivoController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+	private function enviarColas($insercion,$id)
+	{
+		$connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
+		$channel = $connection->channel();
+
+		$channel->queue_declare($id, false, false, false, false);
+
+		$msg = new AMQPMessage($insercion);
+		$channel->basic_publish($msg, '', 'hello');
+
+		$channel->close();
+		$connection->close();
 	}
 
 

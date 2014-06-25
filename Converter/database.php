@@ -10,7 +10,7 @@ $capsule->addConnection(array(
 	'host'     => 'localhost',
 	'database' => 'converter',
 	'username' => 'postgres',
-	'password' => 'lili',
+	'password' => 'jrod',
 	'charset'  => 'utf8',
 	'prefix'   => '',
 	'port'     => '5432',

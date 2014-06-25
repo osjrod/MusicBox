@@ -11,5 +11,5 @@
 |
 */
 
+
 Route::resource('/', 'ArchivoController');
-Route::get('/subir','ArchivoController@subir');

@@ -9,7 +9,7 @@ class Archivo extends Eloquent {
 
     public static function store($origen, $destino)
     {
-        $inform = Archivos::create(
+        $inform = Archivo::create(
             array(
                 'origen'   => $origen,
                 'destino'  => $destino

@@ -22,10 +22,6 @@ class Archivos extends Illuminate\Database\Eloquent\Model {
 
     
 }
- 
-
- $archivo = Archivos::store('origen','destino');
-  echo "$archivo";
 
 $connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
 $channel = $connection->channel();
@@ -37,7 +33,7 @@ echo ' [*] Waiting for messages. To exit press CTRL+C', "\n";
 
 $callback = function($msg) {
   echo " [x] Received ", $msg->body, "\n";
-  exec("string");
+  //exec("string");
 
  //aki convierto ydespues update
 

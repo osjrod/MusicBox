@@ -9,7 +9,7 @@
     {{HTML::script('js/javascript.js');}}
 </head>
 <body>
-	<div class="jumbotron">
+	<div>
 	</div>
 	{{ $content }}
 	<footer>
