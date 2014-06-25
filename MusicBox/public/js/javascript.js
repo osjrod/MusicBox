@@ -17,7 +17,7 @@ $(document).on("click","#subir",function() {
 	    contentType: false,
 	    processData: false,
 	}).done(function( data ) {
-	    alert( "Data Saved: " +data );
+	    alert("Convintiendo el archivo");
 	    descargas.push(data);
 
   	}).fail(function( data , error) {
@@ -45,8 +45,10 @@ window.setInterval(function(){
 				if(data.direccion !== null){
 					
 					var nombre = data.origen.split(/(\\|\/)/g).pop();
+					nombre = nombre.substring(nombre.length-3, 0);
+					nombre = nombre + data.destino;
 
-					$("#descargas").append("<br><a target='_blank' href='/link/"+id+"'   >"+nombre+"</a>");
+					$("#descargas").append("<br><a target='_blank' href='/link/"+id+"'   > descargar "+nombre+"</a>");
 					descargas.splice(descargas.indexOf(id),1);
 				}
 				
