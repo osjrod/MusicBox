@@ -9,7 +9,8 @@
     {{HTML::script('js/javascript.js');}}
 </head>
 <body>
-	<div>
+	<div class="jumbotron">
+		<h1>MusicBox Converter</h1>
 	</div>
 	{{ $content }}
 	<footer>

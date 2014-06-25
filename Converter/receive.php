@@ -1,5 +1,5 @@
 <?php
-include 'Archivo.php'; 
+include 'database.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPConnection;
@@ -39,8 +39,8 @@ $callback = function($msg) {
   }
   	$nombreArchivo = basename($origen); 
   	$nombreSinExtension = end(array_reverse(explode(".", $nombreArchivo)));
-  	$nuevoDestino = "/home/liliala/ArchivosMusicBox/Convertidos/$nombreSinExtension.$destino"
-    exec("./ffmpeg -i $origen $nuevoDestino");
+  	$nuevoDestino = "/home/liliala/ArchivosMusicBox/Convertidos/$nombreSinExtension.$destino";
+    exec("./ffmpeg -y -i $origen $nuevoDestino");
     Archivo::edit($id,"$nuevoDestino");
 };
 

@@ -46,18 +46,22 @@ class ArchivoController extends \BaseController {
 		$informacion = pathinfo($nombre);
 		$extension  = $informacion['extension'];
 
-		//if()FALTA VALIDAR EXTENSIONES
-
-		$subido = $origen->move($subidos, $nombre);
-		if($subido) {
-			
-			$origen = $subidos."/".$nombre;
-			$insercion = Archivo::store($origen,$destino);
-			$this->enviarColas(json_encode($insercion),$insercion->id);
-			return Response::json("listo");
+		if(($extension == "ogg")||($extension == "mp3")||($extension == "wav"))
+		{
+			$subido = $origen->move($subidos, $nombre);
+			if($subido) {
+				
+				$origen = $subidos."/".$nombre;
+				$insercion = Archivo::store($origen,$destino);
+				$this->enviarColas(json_encode($insercion),$insercion->id);
+				return Response::json($insercion->id);
+			}
+			else {
+				return Response::json("error");
+			}
 		}
 		else {
-			return Response::json("error");
+			return Response::json("formato invalido");
 		}
 	}
 
@@ -118,6 +122,21 @@ class ArchivoController extends \BaseController {
 		$channel->basic_publish($msg, '', 'hello');
 		$channel->close();
 		$connection->close();
+	}
+
+	public function descargar($id){
+     	
+		$archivo =Archivo::show($id);
+		$link = $archivo->direccion;
+		if($link != ""){
+        	return Response::download($link);
+       	}
+		
+	}
+
+	public function buscar($id){
+		$archivo =Archivo::show($id);
+		return Response::json($archivo);
 	}
 
 

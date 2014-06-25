@@ -13,3 +13,5 @@
 
 
 Route::resource('/', 'ArchivoController');
+Route::get('/link/{id}', 'ArchivoController@descargar');
+Route::get('/buscar/{id}', 'ArchivoController@buscar');

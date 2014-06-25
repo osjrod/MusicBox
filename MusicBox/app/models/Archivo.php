@@ -9,12 +9,19 @@ class Archivo extends Eloquent {
 
     public static function store($origen, $destino)
     {
-        $inform = Archivo::create(
+        $archivo = Archivo::create(
             array(
                 'origen'   => $origen,
                 'destino'  => $destino
             )
         );
-        return $inform;
+        return $archivo;
     }
+
+    public static function show($id)
+    {
+        $archivos = Archivo::findOrFail($id);
+        return $archivos;
+    }
+
 }
