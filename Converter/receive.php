@@ -11,17 +11,6 @@ class Archivos extends Illuminate\Database\Eloquent\Model {
     protected $guarded    = array('id');
     public    $timestamps = false;
 
-    public static function store($origen, $destino)
-    {
-        $inform = Archivos::create(
-            array(
-                'origen'   => $origen,
-                'destino'  => $destino
-            )
-        );
-        return $inform;
-    }
-
     
     public static function edit($id, $direccion)
     {
